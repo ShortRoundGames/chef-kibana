@@ -1,3 +1,5 @@
+# NOTE: don't run this recipe if using Kibana 4
+
 include_recipe 'htpasswd'
 include_recipe 'nginx'
 

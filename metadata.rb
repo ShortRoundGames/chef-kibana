@@ -10,5 +10,7 @@ version          '1.1.5'
   depends cb
 end
 
+depends "java"
+
 supports "ubuntu"
 supports "debian"

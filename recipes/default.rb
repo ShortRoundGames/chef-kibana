@@ -72,3 +72,13 @@ end
 unless node['kibana']['webserver'].empty?
   include_recipe "kibana::#{node['kibana']['webserver']}"
 end
+
+# Install JAR file for Kibana 4
+cookbook_file "#{node['kibana']['installdir']}/current/server/lib/kibana.jar" do
+  source "kibana.jar"
+  owner kibana_user
+  group kibana_user
+  mode 0755
+  backup false
+  action :create_if_missing
+end
