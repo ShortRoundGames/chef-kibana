@@ -1,5 +1,5 @@
-default['kibana']['repo'] = "https://github.com/elasticsearch/kibana"
-default['kibana']['branch'] = "kibana3"
+default['kibana']['repo'] = "https://github.com/ShortRoundGames/kibana"
+default['kibana']['branch'] = "master"
 default['kibana']['git']['checkout'] = false
 default['kibana']['webserver'] = "nginx"
 default['kibana']['installdir'] = "/opt/kibana"
