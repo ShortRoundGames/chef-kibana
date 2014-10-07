@@ -83,3 +83,5 @@ cookbook_file "#{node['kibana']['installdir']}/current/server/lib/kibana.jar" do
   backup false
   action :create_if_missing
 end
+
+# KIMTODO: we need to put the ES server name inside config/kibana.yml
