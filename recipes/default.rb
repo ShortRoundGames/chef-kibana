@@ -87,6 +87,6 @@ end
 # KIMTODO: we need to put the ES server name inside config/kibana.yml
 template "#{node['kibana']['installdir']}/current/server/config/kibana.yml" do
   source 'kibana.yml.erb'
-  mode   '0644''
+  mode   '0644'
   owner  'root'
 end

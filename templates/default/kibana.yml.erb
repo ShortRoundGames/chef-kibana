@@ -2,7 +2,7 @@
 port: 5601
 
 # The Elasticsearch instance to user for all your queries
-elasticsearch: "http://<%= {node['kibana']['es_server']} %>:<%= node['kibana']['es_port'] %>"
+elasticsearch: "<%= node['opsworks']['layers']['elasticsearch']['instances'][0]['ip'] %>"
 
 # Kibana uses and index in Elasticsearch to store saved searches, visualizations
 # and dashboard. It will create an new index if it doesn't already exist.
