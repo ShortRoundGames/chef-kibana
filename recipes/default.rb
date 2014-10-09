@@ -84,7 +84,7 @@ cookbook_file "#{node['kibana']['installdir']}/current/server/lib/kibana.jar" do
   action :create_if_missing
 end
 
-# KIMTODO: we need to put the ES server name inside config/kibana.yml
+# We need to do this to put the ES server name inside config/kibana.yml
 template "#{node['kibana']['installdir']}/current/server/config/kibana.yml" do
   source 'kibana.yml.erb'
   mode   '0644'
