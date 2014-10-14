@@ -43,9 +43,9 @@ directory node['kibana']['installdir'] do
   mode "0755"
 end
 
-git "#{node['kibana']['installdir']}/#{node['kibana']['branch']}" do
+git "#{node['kibana']['installdir']}/#{node['kibana']['version']}" do
   repository node['kibana']['repo']
-  reference node['kibana']['branch']
+  reference node['kibana']['version']
   if node['kibana']['git']['checkout']
     action :checkout
   else
@@ -55,7 +55,7 @@ git "#{node['kibana']['installdir']}/#{node['kibana']['branch']}" do
 end
 
 link "#{node['kibana']['installdir']}/current" do
-  to "#{node['kibana']['installdir']}/#{node['kibana']['branch']}/src"
+  to "#{node['kibana']['installdir']}/#{node['kibana']['version']}/src"
 end
 
 template "#{node['kibana']['installdir']}/current/config.js" do
@@ -104,6 +104,5 @@ bash "install_jar" do
     tar -zxf kibana-#{node[:kibana][:version]}.tar.gz
     cp kibana-#{node[:kibana][:version]}/lib/kibana.jar #{node['kibana']['installdir']}/current/server/lib/
     rm -rf kibana-#{node[:kibana][:version]}
-    rm kibana-#{node[:kibana][:version]}.tar.gz
   EOH
 end

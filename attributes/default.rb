@@ -1,5 +1,4 @@
 default['kibana']['repo'] = "https://github.com/ShortRoundGames/kibana"
-default['kibana']['branch'] = "kibana4_b1_1"
 default['kibana']['git']['checkout'] = false
 default['kibana']['webserver'] = "nginx"
 default['kibana']['installdir'] = "/opt/kibana"
