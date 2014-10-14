@@ -74,19 +74,36 @@ unless node['kibana']['webserver'].empty?
   include_recipe "kibana::#{node['kibana']['webserver']}"
 end
 
-# Install JAR file for Kibana 4
-cookbook_file "#{node['kibana']['installdir']}/current/server/lib/kibana.jar" do
-  source "kibana.jar"
-  owner kibana_user
-  group kibana_user
-  mode 0755
-  backup false
-  action :create_if_missing
-end
-
-# We need to do this to put the ES server name inside config/kibana.yml
+# We need to put the ES server name inside config/kibana.yml
 template "#{node['kibana']['installdir']}/current/server/config/kibana.yml" do
   source 'kibana.yml.erb'
   mode   '0644'
   owner  'root'
+end
+
+# Install JAR file for Kibana 4
+#cookbook_file "#{node['kibana']['installdir']}/current/server/lib/kibana.jar" do
+#  source "kibana.jar"
+#  owner kibana_user
+#  group kibana_user
+#  mode 0755
+#  backup false
+#  action :create_if_missing
+#end
+
+# Download require JAR file from the web
+remote_file "#{Chef::Config[:file_cache_path]}/kibana-#{node[:kibana][:version]}.tar.gz" do
+  source "https://download.elasticsearch.org/kibana/kibana/kibana-#{node[:kibana][:version]}.tar.gz"
+end
+
+# Install the JAR in the correct folder
+bash "install_jar" do
+  user "root"
+  cwd "#{Chef::Config[:file_cache_path]}"
+  code <<-EOH
+    tar -zxf kibana-#{node[:kibana][:version]}.tar.gz
+    cp kibana-#{node[:kibana][:version]}/lib/kibana.jar #{node['kibana']['installdir']}/current/server/lib/
+    rm -rf kibana-#{node[:kibana][:version]}
+    rm kibana-#{node[:kibana][:version]}.tar.gz
+  EOH
 end
