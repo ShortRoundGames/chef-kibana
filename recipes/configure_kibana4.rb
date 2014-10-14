@@ -6,6 +6,7 @@ script "run_kibana" do
   cwd "/tmp"
   code <<-EOH
     killall java
+    sleep 5
     chmod 0755 #{node['kibana']['installdir']}/current/server/bin/kibana.sh
     #{node['kibana']['installdir']}/current/server/bin/kibana.sh & disown
   EOH
