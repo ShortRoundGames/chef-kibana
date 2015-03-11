@@ -65,7 +65,7 @@ directory "#{node['kibana']['installdir']}/#{node['kibana']['version']}/src/serv
 end
 
 # Download server app from the web
-remote_file "#{Chef::Config[:file_cache_path]}/kibana-#{node[:kibana][:version]}.tar.gz" do
+remote_file "#{Chef::Config[:file_cache_path]}/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz" do
   source "https://download.elasticsearch.org/kibana/kibana/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz"
 end
 
