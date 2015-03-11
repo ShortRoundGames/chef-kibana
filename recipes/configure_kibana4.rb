@@ -11,5 +11,5 @@ script "kill_old_kibana" do
 end
 
 execute "run-kibana" do
-  command "#{node['kibana']['installdir']}/current/server/bin/kibana"
+  command "nohup #{node['kibana']['installdir']}/current/server/bin/kibana &"
 end
