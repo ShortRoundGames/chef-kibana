@@ -104,3 +104,10 @@ template "#{node['kibana']['installdir']}/current/server/config/kibana.yml" do
   mode   '0644'
   owner  'root'
 end
+
+# We need to install a pill so we can run through bluepill
+template "#{node['kibana']['installdir']}/kibana.pill" do
+  source 'kibana.pill.erb'
+  mode   '0644'
+  owner  'root'
+end

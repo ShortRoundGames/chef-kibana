@@ -1,0 +1,13 @@
+Bluepill.application('kibana',
+                     :log_file => '/tmp/kibana.log') do |app|
+  app.process('kibana') do |process|
+    process.working_dir = '/opt/kibana/current/server/'
+    process.pid_file = "/tmp/kibana.pid"
+    process.start_command = '/opt/kibana/current/server/bin/kibana'
+    process.stop_command = 'kill -SIGTERM {{PID}}'
+    process.restart_command = 'kill -SIGUSR2 {{PID}}'
+    process.daemonize = true
+    process.stdout = "/var/log/kibana_stdout.log"
+    process.stderr = "/var/log/kibana_stderr.log"
+  end
+end

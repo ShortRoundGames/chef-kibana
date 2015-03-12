@@ -1,15 +1,29 @@
 
-# Restart Kibana 4
-script "kill_old_kibana" do
-  interpreter "bash"
-  user "root"
-  cwd "/tmp"
-  code <<-EOH
-    killall node
-    sleep 5
-  EOH
-end
+# Determine if server is running
+status_command = "bluepill status"
+shell = Mixlib::ShellOut.new("#{status_command} 2>&1")
+shell.run_command
 
-execute "run-kibana" do
-  command "nohup #{node['kibana']['installdir']}/current/server/bin/kibana &"
+if shell.exitstatus == 0
+
+  # Bluepill is running, so we need to restart it
+  bash "restart bluepill" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOS
+      bluepill restart kibana
+    EOS
+  end
+
+else
+
+  # Bluepill is not running, so start server running now through bluepill
+  bash "start bluepill" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOS
+      bluepill load #{node['kibana']['installdir']}/kibana.pill
+    EOS
+  end
+
 end
