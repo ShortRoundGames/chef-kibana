@@ -66,7 +66,8 @@ end
 
 # Download server app from the web
 remote_file "#{Chef::Config[:file_cache_path]}/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz" do
-  source "https://download.elasticsearch.org/kibana/kibana/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz"
+#  source "https://download.elasticsearch.org/kibana/kibana/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz"
+  source "https://download.elastic.co/kibana/kibana/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz"
 end
 
 # Install the server in the correct folder
@@ -75,9 +76,7 @@ bash "install_server" do
   cwd "#{Chef::Config[:file_cache_path]}"
   code <<-EOH
     tar -zxf kibana-#{node[:kibana][:version]}-linux-x64.tar.gz
-    mv kibana-#{node[:kibana][:version]}-linux-x64/bin #{node['kibana']['installdir']}/#{node['kibana']['version']}/src/server/bin
-    mv kibana-#{node[:kibana][:version]}-linux-x64/node #{node['kibana']['installdir']}/#{node['kibana']['version']}/src/server/node
-    mv kibana-#{node[:kibana][:version]}-linux-x64/src #{node['kibana']['installdir']}/#{node['kibana']['version']}/src/server/src
+    mv kibana-#{node[:kibana][:version]}-linux-x64/* #{node['kibana']['installdir']}/#{node['kibana']['version']}/src/server/
     rm -rf kibana-#{node[:kibana][:version]}-linux-x64
   EOH
 end
