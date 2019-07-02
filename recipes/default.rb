@@ -19,6 +19,7 @@
 
 include_recipe "git"
 include_recipe "java"
+include_recipe "aws"
 
 es_instances = node[:opsworks][:layers][node['kibana']['es_role']][:instances]
 es_hosts = es_instances.map{ |name, attrs| attrs['private_ip'] }
@@ -65,9 +66,17 @@ directory "#{node['kibana']['installdir']}/#{node['kibana']['version']}/src/serv
 end
 
 # Download server app from the web
-remote_file "#{Chef::Config[:file_cache_path]}/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz" do
-#  source "https://download.elasticsearch.org/kibana/kibana/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz"
-  source "https://download.elastic.co/kibana/kibana/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz"
+#remote_file "#{Chef::Config[:file_cache_path]}/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz" do
+#  source "https://download.elastic.co/kibana/kibana/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz"
+#end
+aws_s3_file "#{Chef::Config[:file_cache_path]}/kibana-#{node[:kibana][:version]}-linux-x64.tar.gz" do
+  bucket "sr-deployment"
+  remote_path "/elk/kibana-4.5.0-linux-x64.tar.gz"
+  aws_access_key_id node[:s3][:access_key]
+  aws_secret_access_key node[:s3][:secret_key]
+  owner "root"
+  group "root"
+  mode "0644"
 end
 
 # Install the server in the correct folder
